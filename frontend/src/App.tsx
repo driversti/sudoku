@@ -38,14 +38,17 @@ interface GameProps {
 }
 
 function Game({ onLoginClick, onLeaderboardClick, onSettingsClick, onStatsClick, onHelpClick }: GameProps) {
-  const { newGame } = useGameStore();
+  const { newGame, puzzle } = useGameStore();
   useKeyboard();
   usePersistence();
 
   useEffect(() => {
-    // Start a new game on mount
-    newGame('MEDIUM');
-  }, [newGame]);
+    // Only start a new game if there's no saved game (empty puzzle)
+    const hasSavedGame = puzzle.some(row => row.some(cell => cell !== null));
+    if (!hasSavedGame) {
+      newGame('MEDIUM');
+    }
+  }, [newGame, puzzle]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center' }}>
