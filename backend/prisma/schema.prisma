@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String?  // Optional for simple username-only mode
+  createdAt DateTime @default(now())
+
+  scores    Score[]
+
+  @@map("players")
+}
+
+model Score {
+  id           String     @id @default(cuid())
+  playerId     String
+  player       Player     @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  difficulty   Difficulty
+  timeSeconds  Int
+  moves        Int
+  hintsUsed    Int          @default(0)
+  completedAt  DateTime    @default(now())
+
+  @@index([difficulty, timeSeconds])
+  @@map("scores")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
