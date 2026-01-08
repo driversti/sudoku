@@ -55,8 +55,6 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
           padding: '24px',
           width: '100%',
           maxWidth: '448px',
-          maxHeight: '90vh',
-          overflow: 'auto',
           boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         }}
         initial={{ scale: 0.9, opacity: 0 }}
@@ -64,56 +62,58 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
-            <h2 className="text-2xl font-bold mb-6" style={{ color: colors.text }}>Settings</h2>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '16px', color: colors.text }}>Settings</h2>
 
             {/* Theme Selection */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3" style={{ color: colors.text }}>Theme</h3>
-              <div className="grid grid-cols-2 gap-3">
+            <div style={{ marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '12px', color: colors.text }}>Theme</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
                 {THEMES.map((t) => (
                   <button
                     key={t.key}
                     onClick={() => setTheme(t.key)}
-                    className="p-4 rounded-lg border-2 transition-all text-left"
                     style={{
+                      padding: '16px',
+                      borderRadius: '8px',
+                      border: '2px solid',
+                      transition: 'all 0.2s',
+                      textAlign: 'left',
                       backgroundColor: theme === t.key ? colors.primary : colors.background,
                       borderColor: theme === t.key ? colors.primary : colors.border,
                       color: theme === t.key ? '#fff' : colors.text,
+                      cursor: 'pointer',
                     }}
                   >
-                    <div className="font-semibold">{t.name}</div>
-                    <div className="text-xs opacity-75">{t.description}</div>
+                    <div style={{ fontWeight: '600' }}>{t.name}</div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.75 }}>{t.description}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Game Settings */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3" style={{ color: colors.text }}>Game</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg"
-                     style={{ backgroundColor: colors.background }}>
+            <div style={{ marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '12px', color: colors.text }}>Game</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', borderRadius: '8px', backgroundColor: colors.background }}>
                   <span style={{ color: colors.text }}>Auto-save games</span>
-                  <span className="text-xs" style={{ color: colors.textSecondary }}>Enabled</span>
+                  <span style={{ fontSize: '0.75rem', color: colors.textSecondary }}>Enabled</span>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg"
-                     style={{ backgroundColor: colors.background }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', borderRadius: '8px', backgroundColor: colors.background }}>
                   <span style={{ color: colors.text }}>Error highlighting</span>
-                  <span className="text-xs" style={{ color: colors.textSecondary }}>Coming soon</span>
+                  <span style={{ fontSize: '0.75rem', color: colors.textSecondary }}>Coming soon</span>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg"
-                     style={{ backgroundColor: colors.background }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', borderRadius: '8px', backgroundColor: colors.background }}>
                   <span style={{ color: colors.text }}>Sound effects</span>
-                  <span className="text-xs" style={{ color: colors.textSecondary }}>Coming soon</span>
+                  <span style={{ fontSize: '0.75rem', color: colors.textSecondary }}>Coming soon</span>
                 </div>
               </div>
             </div>
 
             {/* About */}
-            <div className="mb-6 p-3 rounded-lg" style={{ backgroundColor: colors.background }}>
-              <h3 className="text-sm font-semibold mb-1" style={{ color: colors.text }}>About</h3>
-              <p className="text-xs" style={{ color: colors.textSecondary }}>
+            <div style={{ marginBottom: '24px', padding: '12px', borderRadius: '8px', backgroundColor: colors.background }}>
+              <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '4px', color: colors.text }}>About</h3>
+              <p style={{ fontSize: '0.75rem', color: colors.textSecondary }}>
                 Sudoku Web - A modern, full-featured Sudoku game with daily challenges, leaderboards, and multiple themes.
               </p>
             </div>
