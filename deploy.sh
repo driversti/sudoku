@@ -73,14 +73,9 @@ case $COMMAND in
     push)
         print_info "Building and pushing images to ${REGISTRY_URL}..."
 
-        # Build images
+        # Build images (already tagged with registry URL)
         print_info "Building images..."
         docker compose build
-
-        # Tag images
-        print_info "Tagging images..."
-        docker tag sudoku-backend ${REGISTRY_URL}sudoku-backend:${IMAGE_TAG}
-        docker tag sudoku-frontend ${REGISTRY_URL}sudoku-frontend:${IMAGE_TAG}
 
         # Push images
         print_info "Pushing backend image..."
