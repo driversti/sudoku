@@ -3,16 +3,22 @@ import { useEffect, useRef } from 'react';
 interface UseTimerOptions {
   isPaused: boolean;
   isComplete: boolean;
+  startTime: number;
   onTick: (elapsedTime: number) => void;
 }
 
 /**
  * Timer hook that updates elapsed time
  */
-export function useTimer({ isPaused, isComplete, onTick }: UseTimerOptions) {
-  const startTimeRef = useRef<number>(Date.now());
+export function useTimer({ isPaused, isComplete, startTime, onTick }: UseTimerOptions) {
   const pausedTimeRef = useRef<number>(0);
   const lastTickRef = useRef<number>(Date.now());
+
+  useEffect(() => {
+    // Reset paused time when startTime changes (new game started)
+    pausedTimeRef.current = 0;
+    lastTickRef.current = Date.now();
+  }, [startTime]);
 
   useEffect(() => {
     if (isComplete) return;
@@ -27,12 +33,12 @@ export function useTimer({ isPaused, isComplete, onTick }: UseTimerOptions) {
 
     const interval = setInterval(() => {
       const now = Date.now();
-      const elapsed = now - startTimeRef.current - pausedTimeRef.current;
+      const elapsed = now - startTime - pausedTimeRef.current;
       onTick(elapsed);
     }, 100); // Update every 100ms
 
     return () => clearInterval(interval);
-  }, [isPaused, isComplete, onTick]);
+  }, [isPaused, isComplete, startTime, onTick]);
 
   /**
    * Format time as MM:SS

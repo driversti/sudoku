@@ -12,8 +12,8 @@ interface HeaderProps {
 }
 
 export function Header({ onLoginClick, onLeaderboardClick, onSettingsClick, onStatsClick, onHelpClick }: HeaderProps) {
-  const { elapsedTime, isPaused, isComplete, updateElapsedTime } = useGameStore();
-  const { formatTime } = useTimer({ isPaused, isComplete, onTick: updateElapsedTime });
+  const { elapsedTime, startTime, isPaused, isComplete, updateElapsedTime } = useGameStore();
+  const { formatTime } = useTimer({ startTime, isPaused, isComplete, onTick: updateElapsedTime });
   const { colors, theme, setTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
 

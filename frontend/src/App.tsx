@@ -15,6 +15,7 @@ import { LeaderboardModal } from './components/modals/LeaderboardModal';
 import { SettingsModal } from './components/modals/SettingsModal';
 import { StatisticsModal } from './components/modals/StatisticsModal';
 import { HowToPlayModal } from './components/modals/HowToPlayModal';
+import { WelcomeOverlay } from './components/welcome/WelcomeOverlay';
 import { AuthProvider } from './contexts/AuthContext';
 import { useGameStore } from './stores/gameStore';
 import { useKeyboard } from './hooks/useKeyboard';
@@ -39,16 +40,27 @@ interface GameProps {
 
 function Game({ onLoginClick, onLeaderboardClick, onSettingsClick, onStatsClick, onHelpClick }: GameProps) {
   const { newGame, puzzle } = useGameStore();
+  const [gameStarted, setGameStarted] = useState(false);
+
   useKeyboard();
   usePersistence();
 
+  // Check if there's a saved game
   useEffect(() => {
-    // Only start a new game if there's no saved game (empty puzzle)
     const hasSavedGame = puzzle.some(row => row.some(cell => cell !== null));
-    if (!hasSavedGame) {
-      newGame('MEDIUM');
+    if (hasSavedGame) {
+      setGameStarted(true);
     }
-  }, [newGame, puzzle]);
+  }, [puzzle]);
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+    newGame('MEDIUM');
+  };
+
+  if (!gameStarted) {
+    return <WelcomeOverlay onStart={handleStartGame} />;
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center' }}>
